@@ -21,7 +21,7 @@ function App() {
           <div className="content__items">
             {
               items.map((item) => (
-                <PizzaBlock {...item}></PizzaBlock>
+                <PizzaBlock key={item.id} {...item}></PizzaBlock>
               ))
             }
           </div>
