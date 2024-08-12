@@ -18,7 +18,7 @@ const Home = () => {
   }, []);
 
   return (
-    <>
+    <div className="container">
       <div className="content__top">
         <Categories />
         <Sort />
@@ -29,7 +29,7 @@ const Home = () => {
           ? [...new Array(8)].map((_, index) => <Skeleton key={index}></Skeleton>)
           : items.map((item) => <PizzaBlock key={item.id} {...item}></PizzaBlock>)}
       </div>
-    </>
+    </div>
   );
 };
 
