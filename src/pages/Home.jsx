@@ -1,8 +1,9 @@
 import React from 'react';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
-import PizzaBlock from '../components/PizzaBlock';
-import Skeleton from '../components/PizzaBlock/Skeleton';
+import SushiBlock from '../components/SushiBlock';
+import Skeleton from '../components/SushiBlock/Skeleton';
+// import items from '../assets/pizzas.json';
 
 const Home = () => {
   const [items, setItems] = React.useState([]);
@@ -23,11 +24,11 @@ const Home = () => {
         <Categories />
         <Sort />
       </div>
-      <h2 className="content__title">Все пиццы</h2>
+      <h2 className="content__title">Все роллы</h2>
       <div className="content__items">
         {isLoading
           ? [...new Array(8)].map((_, index) => <Skeleton key={index}></Skeleton>)
-          : items.map((item) => <PizzaBlock key={item.id} {...item}></PizzaBlock>)}
+          : items.map((item) => <SushiBlock key={item.id} {...item}></SushiBlock>)}
       </div>
     </div>
   );
