@@ -3,6 +3,7 @@ import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import SushiBlock from '../components/SushiBlock';
 import Skeleton from '../components/SushiBlock/Skeleton';
+import Pagination from '../components/Pagination';
 // import items from '../assets/pizzas.json';
 
 const Home = () => {
@@ -30,6 +31,7 @@ const Home = () => {
           ? [...new Array(8)].map((_, index) => <Skeleton key={index}></Skeleton>)
           : items.map((item) => <SushiBlock key={item.id} {...item}></SushiBlock>)}
       </div>
+      <Pagination></Pagination>
     </div>
   );
 };
