@@ -4,11 +4,12 @@ import Sort from '../components/Sort';
 import SushiBlock from '../components/SushiBlock';
 import Skeleton from '../components/SushiBlock/Skeleton';
 import Pagination from '../components/Pagination';
-// import items from '../assets/pizzas.json';
+import { SearchContext } from '../App';
 
 const Home = () => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const { searchValue } = React.useContext(SearchContext);
 
   React.useEffect(() => {
     fetch('https://66b4c00c9f9169621ea4362e.mockapi.io/items')
