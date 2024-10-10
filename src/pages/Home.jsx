@@ -4,12 +4,12 @@ import Sort from '../components/Sort';
 import SushiBlock from '../components/SushiBlock';
 import Skeleton from '../components/SushiBlock/Skeleton';
 import Pagination from '../components/Pagination';
-//import { SearchContext } from '../App';
+import { SearchContext } from '../App';
 
 const Home = () => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  // const { searchValue } = React.useContext(SearchContext);
+  const { searchValue } = React.useContext(SearchContext);
   const [categoryId, setCategoryId] = React.useState(0);
   const [sortType, setSortType] = React.useState({
     name: 'популярности ↓',
@@ -30,6 +30,12 @@ const Home = () => {
       });
   }, [categoryId, sortType]);
 
+  const filteredSushi = items
+  .filter((obj) => obj.title.toLowerCase().includes(searchValue.toLowerCase()))
+  .map((item) => <SushiBlock key={item.imageUrl} {...item}></SushiBlock>);
+  
+  const skeletons = [...new Array(8)].map((_, index) => <Skeleton key={index}></Skeleton>);
+
   return (
     <div className="container">
       <div className="content__top">
@@ -38,11 +44,15 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все роллы</h2>
       <div className="content__items">
-        {isLoading
-          ? [...new Array(8)].map((_, index) => <Skeleton key={index}></Skeleton>)
-          : items.map((item) => <SushiBlock key={item.imageUrl} {...item}></SushiBlock>)}
+        {isLoading ? (
+          skeletons
+        ) : filteredSushi.length > 0 ? (
+          filteredSushi
+        ) : (
+          <p className="not-found-text">К сожалению, ничего не найдено 😔</p>
+        )}
       </div>
-      <Pagination></Pagination>
+      <Pagination />
     </div>
   );
 };
