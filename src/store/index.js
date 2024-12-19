@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import sortingReducer from './entities/sortingSlice';
+import filterReducer from './entities/filterSlice';
 
 export default configureStore({
   reducer: {
-    sorting: sortingReducer,
+    filter: filterReducer,
   },
 });

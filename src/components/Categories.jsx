@@ -1,7 +1,16 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId } from '../store/entities/filterSlice';
 
-function Categories({value, onChangeCategory}) {
+function Categories() {
   const categories = ['Все', 'Классические', 'Запеченные', 'Маки', 'Сашими', 'Гунканы', 'Нигири'];
+
+  const dispatch = useDispatch();
+  const currentCategoryId = useSelector((state) => state.filter.categoryId);
+
+  const onChangeCategory = (id) => {
+    dispatch(setCategoryId(id));
+  };
 
   return (
     <div className="categories">
@@ -10,7 +19,7 @@ function Categories({value, onChangeCategory}) {
           <li
             key={i}
             onClick={() => onChangeCategory(i)}
-            className={value === i ? 'active' : ''}>
+            className={currentCategoryId === i ? 'active' : ''}>
             {categoryName}
           </li>
         ))}

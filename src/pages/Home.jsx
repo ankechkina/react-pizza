@@ -5,16 +5,15 @@ import SushiBlock from '../components/SushiBlock';
 import Skeleton from '../components/SushiBlock/Skeleton';
 import Pagination from '../components/Pagination';
 import { SearchContext } from '../App';
+import { useSelector } from 'react-redux';
 
 const Home = () => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const { searchValue } = React.useContext(SearchContext);
-  const [categoryId, setCategoryId] = React.useState(0);
-  const [sortType, setSortType] = React.useState({
-    name: 'популярности ↓',
-    sortProperty: 'rating&order=desc',
-  });
+
+  const categoryId = useSelector((state) => state.filter.categoryId);
+  const sortType = useSelector((state) => state.filter.currentSorting);
 
   React.useEffect(() => {
     const category = categoryId > 0 ? `?category=${categoryId}` : '';
@@ -39,8 +38,8 @@ const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} onChangeCategory={(i) => setCategoryId(i)} />
-        <Sort value={sortType} onChangeSort={(sorting) => setSortType(sorting)} />
+        <Categories />
+        <Sort />
       </div>
       <h2 className="content__title">Все роллы</h2>
       <div className="content__items">
