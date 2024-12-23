@@ -2,19 +2,19 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentSorting } from '../store/entities/filterSlice';
 
+export const sortingList = [
+  { name: 'популярности ↓', sortProperty: 'rating&order=desc' },
+  { name: 'популярности ↑', sortProperty: 'rating&order=asc' },
+  { name: 'цене ↓', sortProperty: 'price&order=desc' },
+  { name: 'цене ↑', sortProperty: 'price&order=asc' },
+  { name: 'алфавиту ↓', sortProperty: 'title&order=desc' },
+  { name: 'алфавиту ↑', sortProperty: 'title&order=asc' },
+];
+
 function Sort() {
   const [isVisible, setIsVisible] = React.useState(false);
   const dispatch = useDispatch();
   const currentSorting = useSelector((state) => state.filter.currentSorting);
-
-  const list = [
-    { name: 'популярности ↓', sortProperty: 'rating&order=desc' },
-    { name: 'популярности ↑', sortProperty: 'rating&order=asc' },
-    { name: 'цене ↓', sortProperty: 'price&order=desc' },
-    { name: 'цене ↑', sortProperty: 'price&order=asc' },
-    { name: 'алфавиту ↓', sortProperty: 'title&order=desc' },
-    { name: 'алфавиту ↑', sortProperty: 'title&order=asc' },
-  ];
 
   const handleElementClick = (sortingObj) => {
     dispatch(setCurrentSorting(sortingObj));
@@ -41,7 +41,7 @@ function Sort() {
       {isVisible && (
         <div className="sort__popup">
           <ul>
-            {list.map((element, i) => (
+            {sortingList.map((element, i) => (
               <li
                 key={i}
                 onClick={() => handleElementClick(element)}
