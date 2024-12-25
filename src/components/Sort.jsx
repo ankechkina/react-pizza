@@ -16,13 +16,26 @@ function Sort() {
   const dispatch = useDispatch();
   const currentSorting = useSelector((state) => state.filter.currentSorting);
 
+  const sortRef = React.useRef(null);
+
   const handleElementClick = (sortingObj) => {
     dispatch(setCurrentSorting(sortingObj));
     setIsVisible(false);
   };
 
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setIsVisible(false);
+      }
+    };
+    document.body.addEventListener('click', handleClickOutside);
+    
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
