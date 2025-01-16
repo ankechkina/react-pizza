@@ -7,14 +7,12 @@ import Skeleton from '../components/SushiBlock/Skeleton';
 import Pagination from '../components/Pagination';
 import { SearchContext } from '../App';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
 import { setCurrentPage, setFilters } from '../store/entities/filterSlice';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import qs from 'qs';
+import { fetchSushi } from '../store/entities/sushiSlice';
 
 const Home = () => {
-  const [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
   const { searchValue } = React.useContext(SearchContext);
   const [isInitialized, setIsInitialized] = React.useState(false);
 
@@ -25,22 +23,16 @@ const Home = () => {
   const categoryId = useSelector((state) => state.filter.categoryId);
   const sortType = useSelector((state) => state.filter.currentSorting);
   const currentPage = useSelector((state) => state.filter.currentPage);
+  const sushiItems = useSelector((state) => state.sushi.items);
+  const loadingStatus = useSelector((state) => state.sushi.status);
 
   const onChangePage = (num) => {
     dispatch(setCurrentPage(num));
   };
 
-  const fetchItems = () => {
-    setIsLoading(true);
+  const fetchItems = async () => {
     const category = categoryId > 0 ? `&category=${categoryId}` : '';
-    axios
-      .get(
-        `https://66b4c00c9f9169621ea4362e.mockapi.io/items?page=${currentPage}${category}&sortBy=${sortType.sortProperty}`,
-      )
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+    dispatch(fetchSushi({ currentPage, category, sortType }));
   };
 
   React.useEffect(() => {
@@ -71,7 +63,7 @@ const Home = () => {
     }
   }, [categoryId, sortType, currentPage, searchValue, isInitialized]);
 
-  const filteredSushi = items
+  const filteredSushi = sushiItems
     .filter((obj) => obj.title.toLowerCase().includes(searchValue.toLowerCase()))
     .map((item) => <SushiBlock key={item.imageUrl} {...item}></SushiBlock>);
 
@@ -85,7 +77,7 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все роллы</h2>
       <div className="content__items">
-        {isLoading ? (
+        {loadingStatus === 'loading' ? (
           skeletons
         ) : filteredSushi.length > 0 ? (
           filteredSushi
