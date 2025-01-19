@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import NotFound from './pages/NotFoundBlock';
 import Cart from './pages/Cart';
+import FullItem from './pages/FullItem';
 
 export const SearchContext = React.createContext('');
 
@@ -21,6 +22,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home></Home>}></Route>
               <Route path="/cart" element={<Cart></Cart>}></Route>
+              <Route path="/item/:id" element={<FullItem></FullItem>}></Route>
               <Route path="*" element={<NotFound></NotFound>}></Route>
             </Routes>
           </div>
